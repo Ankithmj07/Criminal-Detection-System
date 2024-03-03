@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="shortcut icon" href="\static\images\logo.png" />
+
+    <!--js bundle cdn-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+        :root {
+            --header-height: 3rem;
+
+            /*========== Colors ==========*/
+            /* Change favorite color */
+            --hue-color: 250; /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
+
+            /* HSL color mode */
+            --first-color: hsl(var(--hue-color), 69%, 61%);
+            --first-color-alt: hsl(var(--hue-color), 57%, 53%);
+        }
+
+
+        body{
+            font-family: 'Poppins', sans-serif;
+            background: rgb(44,12,94);
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .heading{
+            text-align: center;
+        }
+        .title{
+            font-size: 2.5rem;
+            color: #fff;
+            line-height: 3.5rem;
+        }
+        .logo-div{
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .logo-div .logo-img{
+            width: 250px;
+        }
+        
+        .button{
+            display: inline-block;
+            background-color: var(--first-color);
+            color: #fff;
+            padding: 1rem;
+            border-radius: .5rem;
+            font-weight: 400;
+            text-decoration: none;
+            margin-top: var(--mb-0-75);
+        }
+        .button:hover{
+            background-color: var(--first-color-alt);
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .button--flex{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+        .button--small{
+            padding: 0.75rem 0.75rem;
+        }
+        .div-buttons{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2.5rem;
+        }
+        .get-profile-buttons{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: .5rem;
+        }
+
+        .criminal-button{
+            background-color: rgb(223, 23, 23);
+        }
+        .criminal-button:hover{
+            cursor: pointer;
+            background-color: rgb(238, 54, 54);
+        }
+
+        .main{
+            width: 80%;
+            /*background-color: var(--first-color-alt);*/
+            background: rgba(56,112,169);
+            background: radial-gradient(circle, rgba(56,112,169,1) 0%, rgba(3,92,131,1) 100%);
+            height: 640px;
+            border-radius: .5rem;
+            box-shadow: 0 0 1.5rem;
+            margin-top: 2rem;
+            overflow: hidden;
+        }
+
+        .col-img-container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+
+        /*.col-details-container{
+            border-left: 1px solid black;
+        }*/
+
+        .output-container{
+            width: 400px;
+            height: 300px;
+            margin-top: 1rem;
+            border: none;
+        }
+        .img-title{
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            color:#fff;
+        }
+        .input-img{
+            width: 25%;
+            /*margin-left: 7rem;*/
+            margin-top: 2rem;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .output-image{
+            width: 400px;
+            height: 300px;
+            margin-top: 1.5rem;
+            border-radius: 0.5rem;
+        }
+        .output-image-2{
+            width: 400px;
+            height: 400px;
+            border-radius: 0.5rem;
+            margin-top: 2rem;
+        }
+        .upload-button{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .form-labels{
+            color: #fff;
+            margin-top: 1.9rem;
+        }
+
+        .label-container{
+            display: flex;
+            flex-direction: column;
+            margin-left: 1rem;
+        }
+        .details-row{
+            width: 100%;
+        }
+
+        .form-inputs{
+            height: 30px;
+            font-size: 13px;
+            margin-top: 1.55rem;
+        }
+        
+        .form-select{
+            height: 30px;
+            font-size: 13px;
+            margin-top: 1.55rem;
+        }
+
+        .button-row{
+            margin-top: 2rem;
+        }
+        
+        .show-errMsg{
+            font-size: 12px;
+            color: rgb(255, 254, 254);
+        }
+        .req{
+            color: red;
+        }
+
+        .home-div{
+            width: 40px;
+            height: 40px;
+            background-color: #6e57e0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: -31.5rem;
+            margin-top: 1.3rem;
+        }
+        .home-div:hover{
+            background-color: var(--first-color-alt);
+            cursor: pointer;
+        }
+
+        .home-icon{
+            width: 70%;
+        }
+        .icon-container{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        #main-content{
+            width: 100%;
+            height: 100%;
+        }
+        .col-home-div{
+            width: 40px;
+            height: 40px;
+            background-color: #6e57e0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.2rem;
+            margin-left: -11rem;
+        }
+        .col-home-div:hover{
+            background-color: var(--first-color-alt);
+            cursor: pointer;
+        }
+        .detected-criminals{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.8rem;
+        }
+
+        .criminal-details{
+            width: 80%;
+            height: 60px;
+            background-color: rgb(251, 181, 50);
+            border-radius: .5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+        .criminal-name{
+            font-size: 1.5rem;
+            margin-top: 0.2rem;
+            color: #fff;
+        }
+        .profile-labels{
+            color: yellow;
+            margin-top: 1.9rem;
+        }
+
+        .profile-data{
+            color: #fff;
+            margin-top: 1.9rem;
+        }
+        .profile-container{
+            display: flex;
+            flex-direction: column;
+            margin-left: 1rem;
+        }
+
+        .loader {
+            position: absolute;
+            top: calc(50% - 32px);
+            left: calc(50% - 50px);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            perspective: 800px;
+        }
+
+        .inner {
+          position: absolute;
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;  
+        }
+
+        .inner.one {
+          left: 0%;
+          top: 0%;
+          animation: rotate-one 1s linear infinite;
+          border-bottom: 4px solid #EFEFFA;
+        }
+
+        .inner.two {
+          right: 0%;
+          top: 0%;
+          animation: rotate-two 1s linear infinite;
+          border-right: 3px solid #EFEFFA;
+        }
+
+        .inner.three {
+          right: 0%;
+          bottom: 0%;
+          animation: rotate-three 1s linear infinite;
+          border-top: 4px solid #EFEFFA;
+        }
+
+        @keyframes rotate-one {
+          0% {
+            transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+          }
+          100% {
+            transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+          }
+        }
+
+        @keyframes rotate-two {
+            0% {
+            transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+            }
+            100% {
+              transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+            }
+        }
+
+        @keyframes rotate-three {
+          0% {
+            transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+          }
+          100% {
+            transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+          }
+        }
+        .loader-container{
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 110%;
+            background-color: #131212;
+            opacity: 0.7;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="heading">
+            <br><h2 class="title">Detect Criminal</h2>
+        </div>
+    </header>
+    <div class="main" id="main">
+        <div id="main-content">
+            <div class="icon-container">
+                <a href="/">
+                    <div class="home-div">
+                        <img src="\static\images\home.png" alt="" class="home-icon">
+                    </div>
+                </a>
+                <div class="img-title">
+                    <h4>Select Image</h4>
+                </div>
+            </div>
+            <div class="col-img-container">
+                <div class="input-img">
+                    <input type="file" id="input-image" class="form-control" accept="image/*" name="image" onchange="loadFile(event)">
+                    
+                </div><br>
+                <span id="errMsgImage" class="show-errMsg"></span>
+                <div id="output-container">
+                    <img id="output"/>
+                </div>
+            </div>
+            
+            <div class="div-buttons">
+                <a href="#" onclick="Recognize();" id="register-button" class="button button--flex button--small button-register">Reconize</a>
+            </div>
+        </div>
+
+        
+        
+    </div>
+    <div class="loader-container" id="loader-container">
+        <div class="loader">
+            <div class="inner one"></div>
+            <div class="inner two"></div>
+            <div class="inner three"></div>
+        </div>
+    </div>
+    
+    <br>
+    <br>
+
+
+    <script>
+        var loadFile = function(event) {
+        var output = document.getElementById('output');
+        var outputContainer=document.getElementById('output-container');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        outputContainer.classList.add('output-img-container')
+        output.classList.add('output-image')
+        output.onload = function() {
+            URL.revokeObjectURL(output.src) // free memory
+          }
+        };
+
+        
+
+
+
+        var mainContent=document.getElementById('main').innerHTML
+        var image=document.getElementById('input-image');
+        console.log(image)
+
+        var detectCriminalHTML=''
+
+
+        function goBack(){
+            document.getElementById('main').innerHTML=mainContent
+        }
+
+        
+
+        function Recognize(){
+            
+            
+            var image=document.getElementById('input-image').value;
+            var imageFile=document.getElementById('input-image')
+            var myimage=imageFile.files[0]
+
+            if(image==''){
+                document.getElementById('errMsgImage').innerHTML='Please Select an Image to Recognize'
+                return false
+            }
+            else{
+                document.getElementById('errMsgImage').innerHTML=''
+                //document.getElementById('main').innerHTML=detectCriminalHTML
+            }
+
+            var formData=new FormData();
+            formData.append('image',myimage);
+            var NoCriminalHTML=''
+            document.getElementById('loader-container').style.display='block';
+
+            var xhttpRecognizeCriminal=new XMLHttpRequest
+            xhttpRecognizeCriminal.onreadystatechange=function(){
+                if(this.readyState==4 && this.status==200){
+                    console.log(this.responseText)
+                    var response=JSON.parse(this.responseText);
+                    
+                    document.getElementById('loader-container').style.display='none';
+
+
+                    if(response.errFlag==1){
+                        localStorage.setItem("Profile",JSON.stringify(response));
+                        console.log(localStorage.getItem('Profile'))
+
+                        detectCriminalHTML+='<div class="row">'
+                        detectCriminalHTML+='<div class="col-6 col-img-container">'
+                        detectCriminalHTML+='<div class="icon-container">'
+                        detectCriminalHTML+='<a href="/Detect"  onclick="goBack();">'
+                        detectCriminalHTML+='<div class="col-home-div">'
+                        detectCriminalHTML+='<img src="/static/images/left-arrow.png" alt="" class="home-icon">'
+                        detectCriminalHTML+='</div>'
+                        detectCriminalHTML+='</a>'
+                        detectCriminalHTML+='<div class="img-title">'
+                        detectCriminalHTML+='<h4>Selected Images</h4>'
+                        detectCriminalHTML+='</div>'
+                        detectCriminalHTML+='</div>'
+                        detectCriminalHTML+='<div id="output-container">'
+                        detectCriminalHTML+='<img id="output-2" class="output-image-2" src="/output_images/'+response.image_file_name+'"/>'
+                        detectCriminalHTML+='</div>'
+
+                        detectCriminalHTML+='</div>'
+                        detectCriminalHTML+='<div class="col-6 col-img-container" id="GetProfile">'
+                        detectCriminalHTML+='<div class="row img-title">'
+                        detectCriminalHTML+='<h4>Criminal detected</h4>'
+                        detectCriminalHTML+='</div>'
+                        detectCriminalHTML+='<div class="detected-criminals">'
+                        detectCriminalHTML+='<div class="criminal-details">'
+                        detectCriminalHTML+='<h4 class="criminal-name">'+response.name+'</h4>'
+                        detectCriminalHTML+='</div>'
+                        detectCriminalHTML+='<div class="get-profile-buttons">'
+                        detectCriminalHTML+='<a href="#" id="register-button" class="button button--flex button--small button-register criminal-button" onclick="GetProfile();">Get Profile</a>'
+                        detectCriminalHTML+='</div>'
+                    
+                        detectCriminalHTML+='</div>'
+                        detectCriminalHTML+='</div>'
+                        detectCriminalHTML+='</div>'
+
+
+                        document.getElementById('main').innerHTML=detectCriminalHTML
+
+                        
+
+                    }
+                    else{
+                        NoCriminalHTML+='<div style="height: 80%; display: flex;flex-direction: column; align-items: center;justify-content: center;">'
+                        NoCriminalHTML+='<h2 style="text-align: center;" class="img-title">Criminal Not Detected</h2><br>'
+                        NoCriminalHTML+='<a href="/Detect" id="register-button" class="button button--flex button--small button-register">Back</a>'
+                        NoCriminalHTML+='</div>'
+                        document.getElementById('main').innerHTML=NoCriminalHTML
+                    }
+
+
+                }
+            }
+            xhttpRecognizeCriminal.open("POST","http://127.0.0.1:8080/recognize_criminal",true)
+            xhttpRecognizeCriminal.send(formData)
+            
+        }
+    
+        var ProfileHTML=''
+
+        function GetProfile(){
+            var ProfileData=JSON.parse(localStorage.getItem('Profile'))
+            console.log(ProfileData)
+
+
+            ProfileHTML+='<div class="row">'
+            ProfileHTML+='<div class="img-title">'
+            ProfileHTML+='<h4>Criminal Profile</h4>'
+            ProfileHTML+='</div>'
+            ProfileHTML+='<div class="col-6 col-img-container">'
+            ProfileHTML+='<div id="output-container" style="margin-top: 1rem;">'
+            ProfileHTML+='<img id="output-2" class="output-image-2" src="/output_images/'+ProfileData.image_file_name+'"/>'
+            ProfileHTML+='</div><br>   '
+            ProfileHTML+='</div>'
+            ProfileHTML+='<div class="col-6 col-img-container">'
+            ProfileHTML+='<div class="row details-row">'
+            ProfileHTML+='<div class="col-5 col-details-container">'
+            ProfileHTML+='<div class="label-container">'
+            ProfileHTML+='<h6 class="profile-labels" for="name">Name :</h6>'
+            ProfileHTML+='<h6 class="profile-labels" for="gender">Gender :</h6>'
+            ProfileHTML+='<h6 class="profile-labels" for="dob">DOB(dd-mm-yyyy) :</h6>'
+            ProfileHTML+='<h6 class="profile-labels" for="blood">Blood Group :</h6>'
+            ProfileHTML+='<h6 class="profile-labels" for="mark">Identification Mark :</h6>'
+            ProfileHTML+='<h6 class="profile-labels" for="nationality">Nationality :</h6>'
+            ProfileHTML+='<h6 class="profile-labels" for="relegion">Relegion :</h6>'
+            ProfileHTML+='<h6 class="profile-labels" for="crimes">Crimes done :</h6>'
+            ProfileHTML+='</div>'
+            ProfileHTML+='</div>'
+            ProfileHTML+='<div class="col-7">'
+            ProfileHTML+='<div class="profile-container">'
+            ProfileHTML+='<h6 class="profile-data" for="name">'+ProfileData.name+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="gender">'+ProfileData.gender+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="dob">'+ProfileData.dob+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="blood">'+ProfileData.blood_group+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="mark">'+ProfileData.identification_mark+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="nationality">'+ProfileData.nationality+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="relegion">'+ProfileData.religion+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="crimes">'+ProfileData.crimes_done+'</h6>   '
+            ProfileHTML+='</div>'
+            ProfileHTML+='</div>'
+            ProfileHTML+='</div>'
+            ProfileHTML+='</div>'
+            ProfileHTML+='</div>'
+            ProfileHTML+='<div class="div-buttons">'
+            ProfileHTML+='<a href="/Detect" target="_self" id="register-button" class="button button--flex button--small button-register">Back</a>'
+            ProfileHTML+='</div>'
+
+            document.getElementById('main').innerHTML = ProfileHTML
+
+        }
+
+        
+        
+
+    </script>
+
+</body>
+</html>

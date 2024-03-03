@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="shortcut icon" href="\static\images\logo.png" />
+
+    <!--js bundle cdn-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+        :root {
+            --header-height: 3rem;
+
+            /*========== Colors ==========*/
+            /* Change favorite color */
+            --hue-color: 250; /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
+
+            /* HSL color mode */
+            --first-color: hsl(var(--hue-color), 69%, 61%);
+            --first-color-alt: hsl(var(--hue-color), 57%, 53%);
+        }
+
+
+        body{
+            font-family: 'Poppins', sans-serif;
+            background: rgb(56,112,169);
+            background: radial-gradient(circle, rgba(56,112,169,1) 0%, rgba(3,92,131,1) 100%);
+        }
+        .heading{
+            text-align: center;
+        }
+        .title{
+            font-size: 2.5rem;
+            color: #fff;
+            line-height: 3.5rem;
+        }
+        .logo-div{
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .logo-div .logo-img{
+            width: 250px;
+        }
+        
+        .button{
+            display: inline-block;
+            width: 15%;
+            background-color: var(--first-color);
+            color: #fff;
+            padding: 1rem;
+            border-radius: .5rem;
+            font-weight: 400;
+            text-decoration: none;
+            margin-top: var(--mb-0-75);
+        }
+        .button:hover{
+            background-color: var(--first-color-alt);
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .button--flex{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+        .button--small{
+            padding: 0.75rem 0.75rem;
+        }
+        .div-buttons{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 3rem;
+        }
+        
+        .loader {
+            width: 80px;
+            aspect-ratio: 1;
+            display: grid;
+            position: absolute;
+            top: 42%;
+            left: 47.5%;
+        }
+        .loader::before,
+        .loader::after {    
+            content:"";
+            grid-area: 1/1;
+            --c:no-repeat radial-gradient(farthest-side,#0839dc 92%,#0000);
+            background: 
+              var(--c) 50%  0, 
+              var(--c) 50%  100%, 
+              var(--c) 100% 50%, 
+              var(--c) 0    50%;
+            background-size: 12px 12px;
+            animation: l12 1s infinite;
+        }
+        .loader::before {
+            margin: 4px;
+            filter: hue-rotate(45deg);
+            background-size: 8px 8px;
+            animation-timing-function: linear
+        }
+
+        @keyframes l12 { 
+          100%{transform: rotate(.5turn)}
+        }
+
+        .loader-container{
+            display: none;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            opacity: 0.5;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="heading">
+            <br><h2 class="title">Real-Time Criminal Identification System<br>Based on Face Recognition</h2>
+        </div>
+    </header>
+    <div class="logo-div">
+        <img src="\static\images\logo(3).png" alt="logo" class="logo-img">
+    </div>
+    <div class="div-buttons">
+        <a href="/Register" class="button button--flex button--small">Register Criminal</a><br>
+        <a href="/Detect" class="button button--flex button--small">Detect Criminal</a><br>
+        <a href="#" onclick="startVideoCapture();" class="button button--flex button--small">Video Surveillance</a>
+    </div>
+    <!--<div id="loading-spinner" style="display: none;">
+        <img src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif" style="width: 100px; position: absolute;top: 42%;left: 47%;" alt="Loading Spinner">
+    </div>-->
+    <!--<div id="loading-overlay" style="display: none;">
+        <div id="loading-spinner">
+            <img src="\static\images\1495.gif" style="width: 100px;" alt="Loading Spinner">
+        </div>
+    </div>-->
+    <div class="loader-container" id="loader-container">
+        <div class="loader" id="loader"></div>
+    </div>
+        
+    
+    <script>
+        function startVideoCapture(){
+            document.getElementById('loader-container').style.display='block';
+            document.getElementById('loader').style.display = 'grid';
+
+
+            var xhttpStartVideo = new XMLHttpRequest()
+            xhttpStartVideo.onreadystatechange=function(){
+                if(this.readyState==4 && this.status==200){
+                    console.log(this.responseText)
+                    window.location.href='/Video'
+                }
+            }
+            xhttpStartVideo.open("GET","http://127.0.0.1:8080/start_video_capture",true)
+            xhttpStartVideo.send()
+        }
+    </script>
+</body>
+</html>
