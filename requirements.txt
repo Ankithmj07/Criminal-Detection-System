@@ -7,7 +7,7 @@ cmake==3.28.1
 colorama==0.4.6
 contourpy==1.2.0
 cycler==0.12.1
-dlib @ file:///C:/Users/Ankith%20M%20J/Downloads/dlib-master/dlib-master/dlib-19.24.1-cp311-cp311-win_amd64.whl#sha256=6f1a5ee167975d7952b28e0ce4495f1d9a77644761cf5720fb66d7c6188ae496
+dlib @ file:dlib-19.24.1-cp311-cp311-win_amd64.whl
 face-recognition==1.3.0
 face-recognition-models==0.3.0
 Flask==3.0.2
