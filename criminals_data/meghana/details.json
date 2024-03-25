@@ -1,0 +1,14 @@
+{
+    "blood_group": "B+",
+    "crimes_done": "Chain Snacthing",
+    "dob": "1996-12-04",
+    "gender": "Female",
+    "identification_mark": "Mole on Neck",
+    "image_paths": [
+        "known_faces\\meghana\\meghana_1.jpg",
+        "known_faces\\meghana\\meghana_2.jpg"
+    ],
+    "name": "Meghana",
+    "nationality": "Indian",
+    "religion": "Hindu"
+}

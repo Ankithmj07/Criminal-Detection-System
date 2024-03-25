@@ -471,7 +471,8 @@
                     document.getElementById('loader-container').style.display='none';
 
 
-                    if(response.errFlag==1){
+                    if(response[0].errFlag==1){
+                        console.log(response)
                         localStorage.setItem("Profile",JSON.stringify(response));
                         console.log(localStorage.getItem('Profile'))
 
@@ -488,7 +489,7 @@
                         detectCriminalHTML+='</div>'
                         detectCriminalHTML+='</div>'
                         detectCriminalHTML+='<div id="output-container">'
-                        detectCriminalHTML+='<img id="output-2" class="output-image-2" src="/output_images/'+response.image_file_name+'"/>'
+                        detectCriminalHTML+='<img id="output-2" class="output-image-2" src="/output_images/'+response[response.length-1].image_path+'"/>'
                         detectCriminalHTML+='</div>'
 
                         detectCriminalHTML+='</div>'
@@ -497,12 +498,18 @@
                         detectCriminalHTML+='<h4>Criminal detected</h4>'
                         detectCriminalHTML+='</div>'
                         detectCriminalHTML+='<div class="detected-criminals">'
+                        
+                        for(var i=0; i<response.length;i++){
+
                         detectCriminalHTML+='<div class="criminal-details">'
-                        detectCriminalHTML+='<h4 class="criminal-name">'+response.name+'</h4>'
+                        detectCriminalHTML+='<h4 class="criminal-name">'+response[i].criminal_name+'</h4>'
                         detectCriminalHTML+='</div>'
                         detectCriminalHTML+='<div class="get-profile-buttons">'
-                        detectCriminalHTML+='<a href="#" id="register-button" class="button button--flex button--small button-register criminal-button" onclick="GetProfile();">Get Profile</a>'
+                        detectCriminalHTML+='<a href="#" id="register-button" class="button button--flex button--small button-register criminal-button" onclick="GetProfile('+i+');">Get Profile</a>'
                         detectCriminalHTML+='</div>'
+
+                        }
+                        
                     
                         detectCriminalHTML+='</div>'
                         detectCriminalHTML+='</div>'
@@ -515,6 +522,7 @@
 
                     }
                     else{
+                        //console.log(this.responseText)
                         NoCriminalHTML+='<div style="height: 80%; display: flex;flex-direction: column; align-items: center;justify-content: center;">'
                         NoCriminalHTML+='<h2 style="text-align: center;" class="img-title">Criminal Not Detected</h2><br>'
                         NoCriminalHTML+='<a href="/Detect" id="register-button" class="button button--flex button--small button-register">Back</a>'
@@ -532,7 +540,7 @@
     
         var ProfileHTML=''
 
-        function GetProfile(){
+        function GetProfile(i){
             var ProfileData=JSON.parse(localStorage.getItem('Profile'))
             console.log(ProfileData)
 
@@ -543,7 +551,7 @@
             ProfileHTML+='</div>'
             ProfileHTML+='<div class="col-6 col-img-container">'
             ProfileHTML+='<div id="output-container" style="margin-top: 1rem;">'
-            ProfileHTML+='<img id="output-2" class="output-image-2" src="/output_images/'+ProfileData.image_file_name+'"/>'
+            ProfileHTML+='<img id="output-2" class="output-image-2" src="/output_images/'+ProfileData[i].image_path+'"/>'
             ProfileHTML+='</div><br>   '
             ProfileHTML+='</div>'
             ProfileHTML+='<div class="col-6 col-img-container">'
@@ -562,14 +570,14 @@
             ProfileHTML+='</div>'
             ProfileHTML+='<div class="col-7">'
             ProfileHTML+='<div class="profile-container">'
-            ProfileHTML+='<h6 class="profile-data" for="name">'+ProfileData.name+'</h6>'
-            ProfileHTML+='<h6 class="profile-data" for="gender">'+ProfileData.gender+'</h6>'
-            ProfileHTML+='<h6 class="profile-data" for="dob">'+ProfileData.dob+'</h6>'
-            ProfileHTML+='<h6 class="profile-data" for="blood">'+ProfileData.blood_group+'</h6>'
-            ProfileHTML+='<h6 class="profile-data" for="mark">'+ProfileData.identification_mark+'</h6>'
-            ProfileHTML+='<h6 class="profile-data" for="nationality">'+ProfileData.nationality+'</h6>'
-            ProfileHTML+='<h6 class="profile-data" for="relegion">'+ProfileData.religion+'</h6>'
-            ProfileHTML+='<h6 class="profile-data" for="crimes">'+ProfileData.crimes_done+'</h6>   '
+            ProfileHTML+='<h6 class="profile-data" for="name">'+ProfileData[i].criminal_name+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="gender">'+ProfileData[i].gender+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="dob">'+ProfileData[i].dob+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="blood">'+ProfileData[i].blood_group+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="mark">'+ProfileData[i].identification_mark+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="nationality">'+ProfileData[i].nationality+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="relegion">'+ProfileData[i].religion+'</h6>'
+            ProfileHTML+='<h6 class="profile-data" for="crimes">'+ProfileData[i].crimes_done+'</h6>   '
             ProfileHTML+='</div>'
             ProfileHTML+='</div>'
             ProfileHTML+='</div>'
@@ -582,6 +590,8 @@
             document.getElementById('main').innerHTML = ProfileHTML
 
         }
+
+    
 
         
         

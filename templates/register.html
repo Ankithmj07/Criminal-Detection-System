@@ -7,9 +7,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="shortcut icon" href="\static\images\logo.png" />
 
+  
+
+
     <!--js bundle cdn-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
 
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
@@ -202,6 +206,82 @@
             display: flex;
             justify-content: center;
         }
+
+        .loader {
+            position: absolute;
+            top: calc(50% - 32px);
+            left: calc(50% - 50px);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            perspective: 800px;
+        }
+
+        .inner {
+          position: absolute;
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;  
+        }
+
+        .inner.one {
+          left: 0%;
+          top: 0%;
+          animation: rotate-one 1s linear infinite;
+          border-bottom: 4px solid #EFEFFA;
+        }
+
+        .inner.two {
+          right: 0%;
+          top: 0%;
+          animation: rotate-two 1s linear infinite;
+          border-right: 3px solid #EFEFFA;
+        }
+
+        .inner.three {
+          right: 0%;
+          bottom: 0%;
+          animation: rotate-three 1s linear infinite;
+          border-top: 4px solid #EFEFFA;
+        }
+
+        @keyframes rotate-one {
+          0% {
+            transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+          }
+          100% {
+            transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+          }
+        }
+
+        @keyframes rotate-two {
+            0% {
+            transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+            }
+            100% {
+              transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+            }
+        }
+
+        @keyframes rotate-three {
+          0% {
+            transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+          }
+          100% {
+            transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+          }
+        }
+        .loader-container{
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 110%;
+            background-color: #131212;
+            opacity: 0.7;
+        }
         
         
     </style>
@@ -228,11 +308,12 @@
                 </div>
                 
                 <div class="input-img">
-                    <input type="file" id="input-image" class="form-control" accept="image/*" name="image" onchange="loadFile(event)">
+                    <input type="file" id="input-image" class="form-control" multiple accept="image/*" name="image" onchange="loadFile(event)">
                     <span id="errMsgImage" class="show-errMsg"></span>
                 </div>
-                <div id="output-container">
+                <div id="output-container" class="gallery">
                     <img id="output"/>
+
                 </div><br>
                 
             </div>
@@ -308,6 +389,13 @@
             <a href="#" id="register-button" onclick="validateForm()" class="button button--flex button--small button-register">Register</a>
         </div>
     </div>
+    <div class="loader-container" id="loader-container">
+        <div class="loader">
+            <div class="inner one"></div>
+            <div class="inner two"></div>
+            <div class="inner three"></div>
+        </div>
+    </div>
     <br>
     <br>
 
@@ -324,18 +412,21 @@
           }
         };
 
+
+        
+
         var successHTML=''
 
         
 
         function validateForm(){
 
-            var imageFile = document.getElementById('input-image').value;
-            var image=document.getElementById('input-image')
-            var myimage=image.files[0]
+            //var imageFile = document.getElementById('input-image').value;
+            var imageInput=document.getElementById('input-image')
+            //var myimage=image.files[0]
 
-            if(imageFile==''){
-                document.getElementById('errMsgImage').innerHTML='Please Choose an image';
+            if (imageInput.files.length < 2){
+                document.getElementById('errMsgImage').innerHTML='Please Choose Two or More images';
                 return false;
             }
             else{
@@ -425,7 +516,12 @@
             formData.append('nationality',nationality);
             formData.append('religion',religion);
             formData.append('crimes_done',crimes);
-            formData.append('image',myimage);
+
+            for (var i = 0; i < imageInput.files.length; i++){
+                formData.append('image',imageInput.files[i]);
+            }
+
+            document.getElementById('loader-container').style.display='block';
             
 
             var xhttpRegisterCriminal=new XMLHttpRequest
@@ -433,6 +529,8 @@
                 if(this.readyState==4 && this.status==200){
                     console.log(this.responseText)
                     var response=JSON.parse(this.responseText);
+
+                    document.getElementById('loader-container').style.display='none';
 
                     if(response.errFlag==1){
                         successHTML+='<div style="height: 80%; display: flex;flex-direction: column; align-items: center;justify-content: center;">'

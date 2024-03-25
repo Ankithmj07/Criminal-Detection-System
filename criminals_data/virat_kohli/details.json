@@ -1,11 +1,12 @@
 {
     "blood_group": "A+",
     "crimes_done": "Stealing man of the matches",
-    "dob": "1985-11-16",
+    "dob": "1986-09-16",
     "gender": "Male",
     "identification_mark": "Tatto of lord Shive in right hand ",
     "image_paths": [
-        "known_faces\\virat_kohli.jpg"
+        "known_faces\\virat_kohli\\virat_kohli_1.jpg",
+        "known_faces\\virat_kohli\\virat_kohli_2.jpg"
     ],
     "name": "Virat Kohli",
     "nationality": "Indian",
